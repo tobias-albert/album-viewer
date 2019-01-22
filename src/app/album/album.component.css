@@ -1,0 +1,55 @@
+body {
+  background-color: #921;
+}
+
+.small-album-img {
+  height: 100px;
+  width: 100px;
+}
+
+.small-album-img img{
+  height: inherit;
+  width: inherit;
+}
+
+.album-table {
+  border: 2px solid #111;
+  margin: 20px 0;
+}
+
+.album-table td {
+  border: 1px solid #333;
+  padding: 0 20px;
+  margin: 0;
+}
+
+.album-table:first-child {
+  background: red;
+  padding: 0;
+  height: 10px !important;
+}
+
+.album-row:hover {
+  cursor: pointer;
+  background: #ddd;
+  font-weight: bold;
+}
+
+.album-row:active {
+  background: #bbb;
+}
+
+.redstuff {
+  background: red;
+}
+
+.album-page-container {
+  width: 90%;
+  margin: 10px auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.album-page-container * {
+  margin-right: 10px;
+}

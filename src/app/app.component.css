@@ -1,0 +1,17 @@
+* {
+  font-family: 'Helvetica', sans-serif !important;
+}
+
+body {
+  background-color: yellow;
+}
+
+p {
+  color: red;
+}
+
+
+h1 {
+  font-family: 'Helvetica';
+  color: teal;
+}

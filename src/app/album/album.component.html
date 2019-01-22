@@ -1,0 +1,27 @@
+<h2> Albums</h2>
+<br>
+<div class="album-page-container">
+  <div class="album-table-container">
+    <div id="x">
+      <p class="current-album">Currently selected album: {{selectedAlbum.name}}</p>
+      <br>
+      <button (click)="clearAlbum()">Clear</button>
+    </div>
+    <table class="album-table flex">
+      <tr>
+        <th>Pic</th>
+        <th>Album</th>
+        <th>Artist</th>
+      </tr>
+      <tr class="album-row" *ngFor="let album of albums" (click)="selectAlbum(album)">
+        <td class="small-album-img"><img class="small-album-img" src="{{album.image}}"></td>
+        <td><span>{{album.name}}</span></td>
+        <td><span>{{album.artist.name}}</span></td>
+      </tr>
+    </table>
+  </div>
+  <div *ngIf="selected" class="selected-album-container flex">
+    <img src="{{this.selectedAlbum.image}}">
+    <app-song [songs]="this.selectedAlbum.songs"></app-song>
+  </div>
+</div>
