@@ -5,12 +5,16 @@ import { Album } from '../album';
 import { Song } from '../song';
 import { SongComponent } from '../song/song.component';
 
+import { SongDetail } from '../song-detail';
+import { SongDetailComponent } from '../song-detail/song-detail.component';
+
 import { ALBUMS } from '../mock-albums';
 
 @Component({
   selector: 'app-album',
   templateUrl: './album.component.html',
-  styleUrls: ['./album.component.css']
+  styleUrls: ['./album.component.css'],
+  providers: [SongComponent]
 })
 
 export class AlbumComponent implements OnInit {
@@ -19,6 +23,7 @@ export class AlbumComponent implements OnInit {
   placeholderAlbum: Album = {name: "---", songs: [{name: "nope", duration: "none"}]};
   selectedAlbum;
   selected: boolean = false;
+  selectedSong;
 
   show(): void {
     console.log('show works')
@@ -38,11 +43,16 @@ export class AlbumComponent implements OnInit {
       return this.selectedAlbum.songs;
   }
 
-  constructor() {
+  getSelectedSong(): Song {
+    return this.sc.getSelectedSong();
+  }
+
+  constructor(private sc: SongComponent) {
   }
 
   ngOnInit() {
     this.selectedAlbum = this.placeholderAlbum;
+    this.selectedSong = this.getSelectedSong();
   }
 
 

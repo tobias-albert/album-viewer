@@ -16,14 +16,18 @@ export class SongComponent implements OnInit {
   selected: boolean = false;
 
   selectSong(song: Song) {
-    if (this.selected) {
-      this.selected = false;
-    }
-    else {
-      this.selectedSong = song;
-      this.selectedSong.selected = true;
-      this.selected = true;
-    }
+      if (this.selectedSong == song) {
+        this.clearSong();
+        return;
+      }
+      else {
+        this.selectedSong = song;
+        this.selected = true;
+      }
+  }
+
+  getSelectedSong(): Song {
+    return this.selectedSong;
   }
 
   clearSong() {
