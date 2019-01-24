@@ -1,0 +1,20 @@
+<p>
+  admin works!
+</p>
+<p>Name:</p>
+<input [(ngModel)]="album.name">
+<p>Artist:</p>
+<input [(ngModel)]="album.artist">
+<p>Image:</p>
+<input [(ngModel)]="album.image">
+<div *ngFor="let song of songs">
+  <p>Song:</p>
+  <p>Name:</p>
+  <input [(ngModel)]="album.songs[0].name">
+  <p>Duration</p>
+  <input [(ngModel)]="album.songs[0].duration">
+  <br>
+</div>
+<button (click)="anotherSong()">Another song</button>
+<br>
+<button (click)="submit()">Submit</button>
