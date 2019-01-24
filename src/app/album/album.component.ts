@@ -20,7 +20,8 @@ import { ALBUMS } from '../mock-albums';
 export class AlbumComponent implements OnInit {
 
   albums = ALBUMS;
-  placeholderAlbum: Album = {name: "---", songs: [{name: "nope", duration: "none"}]};
+  placeholderAlbum: Album = {name: "---", songs: [{name: "nope", duration: "none"}],
+   artist: {name: '---', age: 0, country: '---'}, year: 0, image: '---'};
   selectedAlbum;
   selected: boolean = false;
   selectedSong;

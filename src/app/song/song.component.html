@@ -1,5 +1,5 @@
 <ul *ngFor="let song of songs">
-  <li class="song-name" (click)="selectSong(song)">{{song.name}} - {{song.duration}} (component print)
+  <li class="song-name" (click)="selectSong(song)">{{song.name}} - {{song.duration}}
     <div class="song-details" *ngIf="selectedSong == song">
       <p>I Choose you, {{selectedSong.name}}!</p>
     </div>

@@ -2,6 +2,11 @@
   border: 1px solid black;
 }
 
+.song-name:hover {
+  cursor: pointer;
+  background: #eee;
+}
+
 .song-details {
   font-style: italic;
 }
