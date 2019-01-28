@@ -32,7 +32,7 @@ body {
 .album-row:hover {
   cursor: pointer;
   background: #ddd;
-  font-weight: bold;
+  //font-weight: bold;
 }
 
 .album-row:active {

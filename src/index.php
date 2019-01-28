@@ -21,47 +21,63 @@ if($conn->connect_error) {
   die("Error : " . $conn->connect_error);
 }
 
-if (!isset($_GET['id'])) $_GET['id'] = 0;
-
 $table = trim($_SERVER['PATH_INFO'],'/');
 
+function doStuff($componentType, $idValue, $otherValue) {
+  $sql = "";
+  switch ($componentType) {
+    case 'artist':
+      $sql = "SELECT artist.id AS id, artist.name AS name, artist.country AS country FROM artist ";
+      break;
 
+    case 'album':
+      $sql = "SELECT album.id AS id, album.name AS name, artist.name AS artist, album.image AS image
+              FROM album
+              INNER JOIN artist ON album.artist_id = artist.id ";
+      break;
 
-switch ($table) {
-  case 'artist':
-    $columnNames = array('name', 'age', 'country');
-    $columnValues = array('$name', '$age', '$country');
-    break;
+    case 'song':
+      $sql = "SELECT song.id AS id, song.name AS name, artist.name AS artist, album.name AS album, song.duration AS duration
+              FROM song
+              INNER JOIN album ON song.album_id = album.id
+              INNER JOIN artist ON song.artist_id = artist.id ";
+      $sql .= ($otherValue != '') ? " WHERE album.id = $otherValue" : '';
+      break;
 
-  case 'album':
-    $columnNames = array('name', 'artist', 'image');
-    $columnValues = array('$name', '$artist', '$image');
-    break;
-}
-
-function dostuff($names, $values) {
-  for ($i = 0; $i < count($names); $i++) {
-    $var1 = $names[$i];
-    $var2 = $values[$i];
-    //echo "<p>$var1 = $var2</p>";
   }
+  $sql .= ($idValue != '') ? " WHERE $componentType.id=$idValue" : '';
+  return $sql;
 }
 
-dostuff($columnNames, $columnValues);
-
-
+/*
+    $sql = "SELECT song.name AS songName, song.duration, artist.name AS artist, album.name AS album, album.image AS image
+    FROM song
+    INNER JOIN album ON song.album_id = album.id
+    INNER JOIN artist ON album.artist_id = artist.id ";
+*/
 switch ($method) {
   case 'GET':
-    $id = $_GET['id'];
-    $sql = "select * from $table" . ($id?" where id=$id":'');
+
     /*
-    $sql = "SELECT album.id, album.artist, album.name, image, song.name as songname, duration from album
-            INNER JOIN songsOnAlbum on album.id = songsOnAlbum.album_id
-            INNER JOIN song on songsOnAlbum.song_id = song.id";
-            */
+    $artistId = (isset($_GET['artist_id'])) ? $_Get['artist_id']: '';
+    $albumId = (isset($_GET['album_id'])) ? $_GET['album_id']: '';
+    $songId = (isset($_GET['song_id'])) ? $_GET['song_id']: '';
+    */
+
+    $id = $table.".id";
+    $idValue = (isset($_GET['id'])) ? $_GET['id'] : '';
+    $otherValue = (isset($_GET['album_id'])) ? $_GET['album_id'] : '';
+
+    $sql = doStuff($table, $idValue, $otherValue);//.($albumId?" WHERE $idName=$idValue":'');
+
+    //debug
+    //echo $sql."<br>";
+    //echo $idValue." halla <br>";
+
     break;
 
   case 'PUT':
+  /*
     $sql = "update $table set ";
     for ($i = 0; $i < count($columnNames); $i++) {
       $columnValues[$i] = $input[$columnNames];
@@ -69,6 +85,7 @@ switch ($method) {
       $sql += " $columnNames = $columnValues ";
 
     }
+
     /*
     $id = $input["id"];
     $name = $input["name"];
@@ -80,10 +97,18 @@ switch ($method) {
     break;
 
   case 'POST':
+  /*
     $name = $input["number"];
     $age = $input["amount"];
     $country = $input["country"];
     $sql = "insert into artist (name, age, country) ('$name', '$age', '$country')";
+    */
+    $name = $input["name"];
+    $artist = $input["artist"];
+    $image = $input["image"];
+    $songName = $input["song.name"];
+    $sql = "INSERT into album (name, artist_id, image)
+            VALUES ('$name', '$artist', '$image') ";
     break;
 
   case 'DELETE':
@@ -94,37 +119,8 @@ switch ($method) {
 
 // run SQL statement
 $result = mysqli_query($conn,$sql);
+
 /*
-$prevRow = 0;
-
-function setAlbumVars($aItem) {
-    $uId = $aItem['id'];
-    $uArtist = $aItem['artist'];
-    $uName = $aItem['name'];
-    $uImage = $aItem['image'];
-}
-
-for ($i = 0; $row = mysqli_fetch_object($result); $i++) {
-  $items = array();
-  $item = json_decode(json_encode($row), true);
-  $currentSongs = array();
-  //sets album vars on first run of loop
-  if ($i == 0) {
-      $prevRow = $item['id'];
-      setAlbumVars($item);
-  }
-  //adds song to list of songs
-  if ($item['id'] == $prevRow) {
-    array_push($currentSongs, $item['songname']);
-    array_push($items, $item['songname']);
-    echo $items[0] . "<br>";
-  }
-  //sets album vars again, does something with currentsongs and creates it again
-  else {
-    $prevRow = $item['id'];
-    setAlbumVars($item);
-  }
-}
 
 function printe() {
   $attemptmillion = ['id' => '',
@@ -160,11 +156,13 @@ if (!$result) {
 
 // print results, insert id or affected row count
 if ($method == 'GET') {
-  if (!$id) echo '[';
-  for ($i=0;$i<mysqli_num_rows($result);$i++) {
-    echo ($i>0?',':'').json_encode(mysqli_fetch_object($result));
+  //if (!$id)
+  echo '[';
+  for ($i = 0; $i < mysqli_num_rows($result); $i++) {
+    echo ($i > 0?',':'').json_encode(mysqli_fetch_object($result));
   }
-  if (!$id) echo ']';
+  //if (!$id)
+  echo ']';
 } elseif ($method == 'POST') {
   echo mysqli_insert_id($conn);
 } else {

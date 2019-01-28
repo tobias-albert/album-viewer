@@ -36,6 +36,6 @@ export class DbToolService {
 
 
   getResults(resultType: string): Observable <any> {
-    return this.http.get<any>(this.baseUrl + resultType + '/');
+    return this.http.get<any>(this.baseUrl + resultType);
   }
 }

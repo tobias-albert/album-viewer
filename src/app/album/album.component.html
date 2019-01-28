@@ -16,7 +16,7 @@
       <tr class="album-row" *ngFor="let album of albums" (click)="selectAlbum(album)">
         <td class="small-album-img"><img class="small-album-img" src="{{imgSrc}}{{album.image}}"></td>
         <td><span>{{album.name}}</span></td>
-        <td><span>{{album.artist.name}}</span></td>
+        <td><span>{{album.artist}}</span></td>
       </tr>
     </table>
   </div>

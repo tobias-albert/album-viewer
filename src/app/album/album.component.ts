@@ -37,7 +37,12 @@ export class AlbumComponent implements OnInit {
 
   selectAlbum(album: Album) {
     this.selectedAlbum = album;
-    this.selected = true;
+    this.selected = true;this.getSongsOnAlbum(this.selectedAlbum)
+      .subscribe(songs => this.selectedAlbum.songs = songs);
+  }
+
+  getSongsOnAlbum(album: Album) {
+    return this.dbTool.getResults('song?album_id=' + this.selectedAlbum.id);
   }
 
   clearAlbum() {

@@ -24,6 +24,10 @@ export class AdminComponent implements OnInit {
   }
 
 
+  submit() {
+    this.dbTool.addAlbum(this.album);
+  }
+
 
   addAlbum(album: Album): void {
     this.dbTool.addAlbum(album)
