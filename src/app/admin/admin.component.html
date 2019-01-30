@@ -3,18 +3,25 @@
 </p>
 <p>Name:</p>
 <input [(ngModel)]="album.name">
-<p>Artist:</p>
+<p>Artist id:</p>
 <input [(ngModel)]="album.artist">
 <p>Image:</p>
 <input [(ngModel)]="album.image">
-<div *ngFor="let song of songs">
-  <p>Song #{{album.songs.length}}:</p>
+<div *ngFor="let song of album.songs; let i = index">
+  <p>Song #{{i+1}}:</p>
   <p>Name:</p>
-  <input [(ngModel)]="album.songs[0].name">
+  <input [(ngModel)]="album.songs[i].name">
   <p>Duration</p>
-  <input [(ngModel)]="album.songs[0].duration">
+  <input [(ngModel)]="song.duration">
   <br>
 </div>
 <button (click)="anotherSong()">Another song</button>
 <br>
 <button (click)="submit()">Submit</button>
+<div>
+name: {{otherAlbum.name}} | artist: {{otherAlbum.artist}} | image: {{otherAlbum.image}}<br>
+<div *ngFor="let song of otherAlbum.songs; let i = index">
+  {{i}}
+  song: {{song.name}} duration : {{song.duration}}
+</div>
+</div>

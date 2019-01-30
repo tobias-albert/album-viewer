@@ -1,8 +1,15 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: PUT, GET, POST");
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: PUT, GET, POST, OPTIONS, PATCH");
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, X-Auth-Token");
+
+/*
+header ("Access-Control-Allow-Origin: *");
+header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
+header ("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
+header ("Access-Control-Allow-Headers: *");
+*/
 $localhost = "127.0.0.1";
 $username = "root";
 $password = "kaktus123";
@@ -21,7 +28,16 @@ if($conn->connect_error) {
   die("Error : " . $conn->connect_error);
 }
 
-$table = trim($_SERVER['PATH_INFO'],'/');
+$table = (isset($_SERVER['PATH_INFO'])) ? trim($_SERVER['PATH_INFO'],'/') : '';
+
+function printHome() {
+  readfile("api-home.html");
+}
+if ($table == '') {
+  printHome();
+}
+else {
+
 
 function doStuff($componentType, $idValue, $otherValue) {
   $sql = "";
@@ -73,7 +89,6 @@ switch ($method) {
     //debug
     //echo $sql."<br>";
     //echo $idValue." halla <br>";
-
     break;
 
   case 'PUT':
@@ -106,7 +121,7 @@ switch ($method) {
     $name = $input["name"];
     $artist = $input["artist"];
     $image = $input["image"];
-    $songName = $input["song.name"];
+    //$songName = $input["song.name"];
     $sql = "INSERT into album (name, artist_id, image)
             VALUES ('$name', '$artist', '$image') ";
     break;
@@ -169,6 +184,7 @@ if ($method == 'GET') {
   echo mysqli_affected_rows($conn);
 }
 
+}
 // close mysqli database connection
 $conn->close();
 ?>
