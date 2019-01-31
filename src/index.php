@@ -1,15 +1,11 @@
 <?php
-
+//header("Access-Control-Allow-Origin: http://localhost:4200");
+http_response_code(200);
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: PUT, GET, POST, OPTIONS, PATCH");
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, X-Auth-Token");
+header("Access-Control-Allow-Methods: GET, PUT, POST, OPTIONS");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
-/*
-header ("Access-Control-Allow-Origin: *");
-header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
-header ("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
-header ("Access-Control-Allow-Headers: *");
-*/
 $localhost = "127.0.0.1";
 $username = "root";
 $password = "kaktus123";
@@ -30,11 +26,13 @@ if($conn->connect_error) {
 
 $table = (isset($_SERVER['PATH_INFO'])) ? trim($_SERVER['PATH_INFO'],'/') : '';
 
-function printHome() {
+function printHome($table) {
+  echo "invalid url: /".$table;
   readfile("api-home.html");
 }
-if ($table == '') {
-  printHome();
+
+if ($table != 'artist' && $table != 'album' && $table != 'song') {
+  printHome($table);
 }
 else {
 
@@ -65,30 +63,13 @@ function doStuff($componentType, $idValue, $otherValue) {
   return $sql;
 }
 
-/*
-    $sql = "SELECT song.name AS songName, song.duration, artist.name AS artist, album.name AS album, album.image AS image
-    FROM song
-    INNER JOIN album ON song.album_id = album.id
-    INNER JOIN artist ON album.artist_id = artist.id ";
-*/
 switch ($method) {
   case 'GET':
-
-    /*
-    $artistId = (isset($_GET['artist_id'])) ? $_Get['artist_id']: '';
-    $albumId = (isset($_GET['album_id'])) ? $_GET['album_id']: '';
-    $songId = (isset($_GET['song_id'])) ? $_GET['song_id']: '';
-    */
-
     $id = $table.".id";
     $idValue = (isset($_GET['id'])) ? $_GET['id'] : '';
     $otherValue = (isset($_GET['album_id'])) ? $_GET['album_id'] : '';
 
-    $sql = doStuff($table, $idValue, $otherValue);//.($albumId?" WHERE $idName=$idValue":'');
-
-    //debug
-    //echo $sql."<br>";
-    //echo $idValue." halla <br>";
+    $sql = doStuff($table, $idValue, $otherValue);
     break;
 
   case 'PUT':
@@ -112,15 +93,16 @@ switch ($method) {
     break;
 
   case 'POST':
+  echo "hei";
   /*
     $name = $input["number"];
     $age = $input["amount"];
     $country = $input["country"];
     $sql = "insert into artist (name, age, country) ('$name', '$age', '$country')";
     */
-    $name = $input["name"];
-    $artist = $input["artist"];
-    $image = $input["image"];
+    $name = $_POST["name"];
+    $artist = $_POST["artist"];
+    $image = $_POST["image"];
     //$songName = $input["song.name"];
     $sql = "INSERT into album (name, artist_id, image)
             VALUES ('$name', '$artist', '$image') ";

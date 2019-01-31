@@ -43,13 +43,13 @@ body {
   background: red;
 }
 
+.album-table-container {
+  margin-right: 10px;
+}
+
 .album-page-container {
   width: 90%;
   margin: 10px auto;
   display: flex;
   flex-wrap: wrap;
-}
-
-.album-page-container * {
-  margin-right: 10px;
 }

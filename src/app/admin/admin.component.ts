@@ -10,6 +10,7 @@ import { DbToolService } from '../db-tool.service';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
+
 export class AdminComponent implements OnInit {
   album: Album;
   albums: Album[];
@@ -36,10 +37,10 @@ export class AdminComponent implements OnInit {
   }
 
   addAlbum(newAlbum: Album): void {
-    //this.getAlbums();
     this.dbTool.addAlbum(newAlbum)
-      .subscribe(album => this.albums.push(album));
-    console.log("??")
+      .subscribe(newAlbum => this.albums.push(newAlbum));
+    console.log(newAlbum);
+      this.getAlbums();
   }
 
   constructor(private dbTool: DbToolService) { }
