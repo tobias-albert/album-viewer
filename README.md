@@ -1,27 +1,15 @@
-# DemiApp
+# Album Viewer
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.1.
+This is a personal test project, made to get more familiar with both TypeScript and [Angular CLI](https://github.com/angular/angular-cli).  
+The current "end goal" is to have a dashboard with a list of albums, that can be sorted / filtered, and having a list of the album's songs show up when clicked. A song can then be clicked to display more information on the song (such as: writers, composers).  
 
-## Development server
+### Stored data  
+The data used in this project is stored in a MySQL database, which can be quickly setup by running [/src/db_setup.sql](https://github.com/tobias-albert/album-viewer/blob/phpsql/src/db_setup.sql).  
+*Note: Current master branch still uses file "mock-albums.ts" to collect album data in a json format*
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Data API  
+As Angular can not communicate with MySQL, [/src/index.php](https://github.com/tobias-albert/album-viewer/blob/phpsql/src/index.php) hosts an API at `http://localhost:8080`.  
+Php must be downloaded - http://no2.php.net/downloads.php.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Running the project  
+In the project folder, use `ng serve -o` to automatically launch the project at `http://localhost:4200`.
