@@ -15,6 +15,8 @@ For the php script to be able to connect to sql db, you need to change the encry
 ### Running the project  
 In the project folder, use `ng serve -o` to automatically launch the project at `http://localhost:4200`.  
 
+### Some notes  
+config file is in: `/etc/mysql/mysql.conf.d/mysqld.cnf`.
 
 ### Project under construction  
 The project is in no way close to being finished, and these instructions are in their current form not very complete. If you manage to stumble upon this project and are stuck trying to get it to run, please do not hesitate to ask! It probably means I have forgotten to include an important step.

@@ -6,22 +6,33 @@ header("Access-Control-Allow-Methods: GET, PUT, POST, OPTIONS");
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
-$localhost = "127.0.0.1";
+//$pwFromConsole = fgets(STDIN);
+
+
+#DigitalOcean db
+$serverAdress = "188.166.17.102";
+$username = "root";
+$password = "demilovato";
+$dbname = "main";
+
+/*
+#localhost
+$serverAdress = "127.0.0.1";
 $username = "root";
 $password = "kaktus123";
 $dbname = "first";
-
+*/
 // get the HTTP method, path and body of the request
 $method = $_SERVER['REQUEST_METHOD'];
 if (isset($_SERVER['PATH_INFO'])) $request = explode('/', trim($_SERVER['PATH_INFO'],'/'));
 $input = json_decode(file_get_contents('php://input'),true);
 
 // create connection to mysql
-$conn = new mysqli($localhost, $username, $password, $dbname);
+$conn = new mysqli($serverAdress, $username, $password, $dbname);
 mysqli_set_charset($conn, 'utf8');
 
 if($conn->connect_error) {
-  die("Error : " . $conn->connect_error);
+  die("Error connecting to sql server : " . $conn->connect_error);
 }
 
 $table = (isset($_SERVER['PATH_INFO'])) ? trim($_SERVER['PATH_INFO'],'/') : '';
@@ -31,9 +42,15 @@ function printHome($table) {
   readfile("api-home.html");
 }
 
-if ($table != 'artist' && $table != 'album' && $table != 'song') {
+$validTables = array('artist', 'album', 'song');
+
+if (!in_array($table, $validTables)) {
   printHome($table);
 }
+/*
+if ($table != 'artist' && $table != 'album' && $table != 'song') {
+  printHome($table);
+}*/
 else {
 
 
