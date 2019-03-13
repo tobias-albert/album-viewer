@@ -6,6 +6,7 @@ header("Access-Control-Allow-Methods: GET, PUT, POST, OPTIONS");
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
+// gets db login info from a file not on git
 $redacted = json_decode(file_get_contents("redacted.json"));
 $redactedIp = $redacted->ip;
 $redactedUsername = $redacted->username;
